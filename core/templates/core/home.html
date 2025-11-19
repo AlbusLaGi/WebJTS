@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio - Jesús Te Sana{% endblock %}
+
+{% block hero %}
+<!-- Hero Section -->
+<div class="hero-section text-white">
+    <div class="hero-bottom-container" data-aos="fade-up">
+        <div class="hero-text-content">
+            <h1 class="hero-quote">"Vengan a mí todos los que están cansados y agobiados, que yo los aliviaré"</h1>
+            <p class="hero-ref">(Mt 11,28)</p>
+            <p class="hero-intro">Te invitamos a un camino de sanación interior y un encuentro transformador con el amor de Dios.</p>
+        </div>
+        <div class="hero-button-container">
+            <a href="{% url 'about' %}" class="btn btn-light btn-lg">Conoce Más Sobre Nosotros</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("{% static 'images/ui/jesus-te-sana.webp' %}");
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+    align-items: flex-end; /* Align container to the bottom */
+    padding: 2rem;
+}
+
+.testimonios-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url("{% static 'images/ui/oracion-devoción.webp' %}");
+    background-size: cover;
+    background-position: center;
+    min-height: 400px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+    color: white;
+}
+
+.testimonios-section h2,
+.testimonios-section p,
+.testimonios-section .lead {
+    color: white !important;
+}
+
+.card-image-responsive {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .card-image-responsive {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    .testimonios-section {
+        padding: 2rem 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-image-responsive {
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+    .testimonios-section {
+        padding: 1.5rem 0 !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .card-image-responsive {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .testimonios-section {
+        min-height: 300px !important;
+    }
+}
+
+.hero-bottom-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+}
+
+.hero-text-content {
+    text-align: left;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-quote {
+    font-size: 1.8rem; /* Smaller font size */
+    font-weight: 600;
+    font-family: 'Lora', serif;
+    margin-bottom: 0.25rem;
+}
+
+.hero-ref {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.hero-intro {
+    font-size: 1.1rem;
+    max-width: 500px; /* Limit width for readability */
+}
+
+.hero-button-container {
+    text-align: right;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+@media (max-width: 768px) {
+    .hero-bottom-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .hero-text-content {
+        text-align: center;
+    }
+    .hero-button-container {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+    .hero-quote {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock hero %}
+
+{% block content %}
+<div class="container my-5">
+
+    <div class="container my-5">
+
+        <!-- Lo que Ofrecemos Section -->
+        <section class="text-center mb-5">
+            <h2 class="mb-4" data-aos="fade-up">Lo que Ofrecemos</h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <img src="{% static 'images/ui/retiro.webp' %}" class="card-image-responsive" alt="Retiros y Eventos">
+                            <h5 class="card-title">Retiros y Eventos</h5>
+                            <p class="card-text">Encuentros de sanación interior, liberación y renovación espiritual para experimentar la paz de Cristo.</p>
+                            <a href="{% url 'eventos' %}" class="btn btn-primary">Ver Próximos Eventos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <img src="{% static 'images/ui/escucha-pods.webp' %}" class="card-image-responsive" alt="Contenido de Sanación">
+                            <h5 class="card-title">Contenido de Sanación</h5>
+                            <p class="card-text">Encuentra artículos, reflexiones y recursos sobre la sanación interior, el perdón y el crecimiento espiritual en nuestro blog.</p>
+                            <a href="{% url 'blog:blog_list' %}" class="btn btn-primary">Ir al Blog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <img src="{% static 'images/ui/emergencias-lectura.webp' %}" class="card-image-responsive" alt="Libros y Recursos">
+                            <h5 class="card-title">Libros y Recursos</h5>
+                            <p class="card-text">Descubre nuestras publicaciones y materiales de apoyo para tu camino de fe y sanación, disponibles en nuestra tienda.</p>
+                            <a href="{% url 'products:product_list' %}" class="btn btn-primary">Ir a la Tienda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenido Recomendado Section -->
+    {% if recommended_items %}
+    <section class="text-center my-5" data-aos="fade-up">
+        <h2 class="mb-4">Blog Recomendado</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+            {% for item in recommended_items %}
+            <div class="col">
+                <div class="card h-100 shadow-sm media-card">
+                    <a href="{% url 'blog:detalle_post' item.slug %}">
+                        {% if item.thumbnail %}
+                            <img src="{{ item.thumbnail.url }}" class="card-img-top" alt="{{ item.title }}">
+                        {% else %}
+                            <img src="{% static 'images/ui/placeholder.png' %}" class="card-img-top" alt="Contenido multimedia">
+                        {% endif %}
+                        <div class="card-img-overlay-custom">
+                            <span class="badge bg-primary">{{ item.get_content_type_display }}</span>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text text-muted">{{ item.description|truncatewords:15 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-end">
+                        <a href="{% url 'blog:detalle_post' item.slug %}" class="btn btn-sm btn-outline-primary">Ver más</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Testimonios Section -->
+    <section class="testimonios-section text-center py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="mb-4">Testimonios de Sanación</h2>
+            <p class="lead">"El impacto de Jesús Te Sana se refleja en los innumerables testimonios de personas que han sido tocadas por la gracia de Dios. Hemos visto corazones sanados, familias reconciliadas, y vidas transformadas a nivel personal, espiritual, emocional, psicológico e incluso físico."</p>
+            <p>Cada historia es un testimonio del poder sanador de Jesús, que restaura relaciones y lleva a las personas a una vida de paz y plenitud.</p>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+.hero-bottom-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+}
+
+.hero-text-content {
+    text-align: left;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-quote {
+    font-size: 1.8rem; /* Smaller font size */
+    font-weight: 600;
+    font-family: 'Lora', serif;
+    margin-bottom: 0.25rem;
+}
+
+.hero-ref {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.hero-intro {
+    font-size: 1.1rem;
+    max-width: 500px; /* Limit width for readability */
+}
+
+.hero-button-container {
+    text-align: right;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+@media (max-width: 768px) {
+    .hero-bottom-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .hero-text-content {
+        text-align: center;
+    }
+    .hero-button-container {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+    .hero-quote {
+        font-size: 1.5rem;
+    }
+}
+
+</style>
+
+<script>
+// Deshabilitar clic derecho en imágenes
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionar todas las imágenes
+    const images = document.querySelectorAll('img');
+
+    images.forEach(img => {
+        // Deshabilitar clic derecho
+        img.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Deshabilitar arrastrar la imagen
+        img.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Deshabilitar selección
+        img.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+
+    // Deshabilitar el menú contextual en todas las imágenes
+    document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+</script>

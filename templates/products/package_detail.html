@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% load static %}
+
+{% block title %}{{ package.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if package.image %}
+                <img src="{{ package.image.url }}" class="img-fluid" alt="{{ package.name }}">
+            {% else %}
+                <img src="{% static 'core/images/default_package.png' %}" class="img-fluid" alt="{{ package.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1>{{ package.name }}</h1>
+            <p class="fs-4 text-primary fw-bold">{{ package.price|format_currency }}</p>
+            {% with original_price=package.price|get_discounted_price:15 %}
+                {% if original_price > package.price %}
+                    <p class="text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.9rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="mt-4">
+                <p><strong>Categoría:</strong> Paquete</p>
+                {% if package.is_available %}
+                    <p><span class="text-success">Disponible</span></p>
+                {% else %}
+                    <p><span class="text-danger">No disponible</span></p>
+                {% endif %}
+            </div>
+            
+            {% if package.description %}
+                <div class="mt-4">
+                    <h3>Descripción</h3>
+                    <p>{{ package.description|linebreaks }}</p>
+                </div>
+            {% endif %}
+            
+            <!-- Productos incluidos en el paquete -->
+            {% if package.products.all %}
+                <div class="mt-4">
+                    <h3>Productos incluidos:</h3>
+                    <ul class="list-group">
+                        {% for product in package.products.all %}
+                            <li class="list-group-item">
+                                <a href="{% url 'products:product_detail' product.slug %}">{{ product.name }}</a>
+                                - {{ product.price|format_currency }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg">Agregar al Carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

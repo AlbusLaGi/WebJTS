@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block hero %}
+<!-- Hero Section -->
+<div class="hero-section text-white">
+    <div class="hero-bottom-container" data-aos="fade-up">
+        <div class="hero-text-content">
+            <h1 class="hero-quote">"Llevad vuestra carga mutua, y así cumpliréis la ley de Cristo"</h1>
+            <p class="hero-ref">(Gálatas 6,2)</p>
+            <p class="hero-intro">Encuentra inspiración y reflexión en nuestros artículos de sanación interior.</p>
+        </div>
+    </div>
+</div>
+{% endblock hero %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center mb-5">
+            <h2>Blog de Sanación Interior</h2>
+            <p class="lead">Artículos, reflexiones y recursos para tu camino de sanación y crecimiento espiritual</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Filtrar por tipo de contenido -->
+        <div class="col-md-12 mb-4">
+            <div class="text-center mb-4">
+                <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary mx-1 {% if not request.resolver_match.url_name == 'blog_por_tipo' %}active{% endif %}">Todo</a>
+                <a href="{% url 'blog:blog_por_tipo' 'LECTURA' %}" class="btn btn-outline-primary mx-1">Lecturas</a>
+                <a href="{% url 'blog:blog_por_tipo' 'REFLEXION' %}" class="btn btn-outline-primary mx-1">Reflexiones</a>
+                <a href="{% url 'blog:blog_por_tipo' 'AUDIO' %}" class="btn btn-outline-primary mx-1">Audios</a>
+                <a href="{% url 'blog:blog_por_tipo' 'VIDEO' %}" class="btn btn-outline-primary mx-1">Videos</a>
+                <a href="{% url 'blog:blog_por_tipo' 'ARTICULO' %}" class="btn btn-outline-primary mx-1">Artículos</a>
+                <a href="{% url 'blog:blog_por_tipo' 'DEVOCIONAL' %}" class="btn btn-outline-primary mx-1">Devocionales</a>
+                <a href="{% url 'blog:blog_por_tipo' 'OTRO' %}" class="btn btn-outline-primary mx-1">Otros</a>
+            </div>
+        </div>
+
+        {% for post in page_obj %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm media-card">
+                {% if post.thumbnail %}
+                    <img src="{{ post.thumbnail.url }}" class="card-img-top" alt="{{ post.titulo }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/ui/placeholder.png' %}" class="card-img-top" alt="{{ post.titulo }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <small class="text-muted">{{ post.fecha_publicacion|date:"d M Y" }}</small>
+                    <h5 class="card-title">{{ post.titulo }}</h5>
+                    <p class="card-text">{{ post.descripcion|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-primary">{{ post.get_tipo_contenido_display }}</span>
+                        <a href="{% url 'blog:detalle_post' post.slug %}" class="btn btn-sm btn-outline-primary">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No hay artículos disponibles en este momento.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if page_obj.has_other_pages %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <nav aria-label="Navegación de páginas">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

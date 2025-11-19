@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load currency_filters %}
+
+{% block title %}Eventos - Jesús te Sana{% endblock %}
+
+{% block content %}
+    <section class="events-list">
+        <h2 data-aos="fade-up">Próximos Eventos</h2>
+        <link rel="stylesheet" href="{% static 'css/event-list.css' %}">
+
+        {% if eventos %}
+            <div class="events-container">
+                {% for evento in eventos %}
+                    <div class="event-item" data-aos="fade-up">
+                        <h3>{{ evento.titulo }}</h3>
+                        <div class="event-item-details">
+                            <p><strong>Fecha:</strong> {{ evento.fecha|date:"d M Y" }}{% if evento.hora_fin %}, de {{ evento.fecha|date:"H:i" }} a {{ evento.hora_fin|date:"H:i" }}{% else %}, {{ evento.fecha|date:"H:i" }}{% endif %}</p>
+                            <p><strong>Ubicación:</strong> {{ evento.lugar }}{% if evento.direccion %}, {{ evento.direccion }}{% endif %}{% if evento.ciudad %}, {{ evento.ciudad }}{% endif %}{% if evento.departamento %}, {{ evento.departamento }}{% endif %}</p>
+                            <p>{{ evento.descripcion|truncatewords:30|linebreaksbr }}</p>
+                            {% if evento.requiere_ofrenda %}
+                                <p><strong>Ofrenda:</strong> {{ evento.valor_ofrenda|format_currency }}</p>
+                            {% else %}
+                                <p><strong>Entrada:</strong> Libre</p>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'evento_detalle' evento.slug %}" class="btn-details">Ver los detalles del evento</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay eventos próximos registrados en este momento.</p>
+        {% endif %}
+    </section>
+{% endblock %}

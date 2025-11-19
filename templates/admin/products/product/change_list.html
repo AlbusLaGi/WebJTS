@@ -1,0 +1,112 @@
+{% extends "admin/change_list.html" %}
+{% load admin_urls static admin_list %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .modal-content {
+            background-color: var(--body-bg, #fff);
+            color: var(--body-fg, #000);
+            border: 1px solid var(--border-color, #ccc);
+        }
+
+        .modal-header {
+            background-color: var(--darkened-bg, #f8f8f8);
+            border-bottom: 1px solid var(--border-color, #e5e5e5);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .modal-footer {
+            background-color: var(--darkened-bg, #f8f8f8);
+            border-top: 1px solid var(--border-color, #e5e5e5);
+            border-radius: 0 0 4px 4px;
+        }
+
+        .form-control, input[type="url"], .vTextField {
+            background-color: var(--body-bg, #fff);
+            color: var(--body-fg, #000);
+            border: 1px solid var(--border-color, #ccc);
+        }
+
+        .help-block {
+            color: var(--body-quiet-color, #666);
+        }
+
+        .btn-default {
+            background-color: var(--button-bg, #f8f8f8);
+            color: var(--button-fg, #333);
+            border: 1px solid var(--border-color, #ccc);
+        }
+
+        .btn-primary {
+            background-color: var(--default-button-bg, #007cba);
+            color: var(--button-fg, #fff);
+            border: 1px solid var(--default-button-bg, #007cba);
+        }
+    </style>
+{% endblock %}
+
+{% block object-tools-items %}
+    {% if show_google_sheet_import %}
+        <li>
+            <a href="#" class="addlink" onclick="showImportModal(); return false;">
+                Importar desde Google Sheets
+            </a>
+        </li>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <!-- Modal para la importación desde Google Sheets -->
+    {% if show_google_sheet_import %}
+    <div id="google-sheet-import-modal" class="modal fade" style="display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1050; overflow: hidden; outline: 0;">
+        <div class="modal-dialog" style="position: relative; width: auto; margin: 10px; width: 600px; margin: 100px auto;">
+            <div class="modal-content" style="position: relative; background-clip: padding-box; border-radius: 6px; outline: 0; box-shadow: 0 3px 9px rgba(0,0,0,0.5);">
+                <div class="modal-header" style="padding: 15px; border-bottom: 1px solid; min-height: 16.43px;">
+                    <h4 class="modal-title" style="margin: 0; line-height: 1.42857143;">Importar Productos desde Google Sheets</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="hideImportModal(); return false;" style="position: absolute; top: 15px; right: 15px; background: transparent; border: none; font-size: 1.5em; cursor: pointer; opacity: 0.2; font-weight: bold;">×</button>
+                </div>
+                <div class="modal-body" style="position: relative; padding: 20px;">
+                    <form method="post" action="{% url 'products:import_products_from_sheet' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_sheet_url" class="required">URL del Google Sheet:</label>
+                            <input type="url" class="form-control vTextField" id="id_sheet_url" name="sheet_url" required
+                                placeholder="https://docs.google.com/spreadsheets/d/..." style="width: 100%; padding: 6px 12px; border-radius: 4px;">
+                            <p class="help-block" style="margin-top: 5px; font-size: 0.9em;">Asegúrate de que el documento esté compartido con permisos de lectura.</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label class="vCheckboxLabel">
+                                    <input type="checkbox" id="id_delete_existing" name="delete_existing" value="1">
+                                    Eliminar productos existentes antes de importar
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="padding: 15px; text-align: right; border-top: 1px solid;">
+                    <button type="button" class="btn btn-default" onclick="hideImportModal(); return false;">Cancelar</button>
+                    <a href="{% url 'products:import_products_from_sheet' %}" class="btn btn-primary" onclick="document.querySelector('#google-sheet-import-modal form').submit(); return false;">Importar Productos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-backdrop" style="display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; opacity: 0.5;"></div>
+
+    <script>
+        function showImportModal() {
+            document.getElementById('google-sheet-import-modal').style.display = 'block';
+            document.getElementById('modal-backdrop').style.display = 'block';
+        }
+
+        function hideImportModal() {
+            document.getElementById('google-sheet-import-modal').style.display = 'none';
+            document.getElementById('modal-backdrop').style.display = 'none';
+        }
+    </script>
+    {% endif %}
+{% endblock %}

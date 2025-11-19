@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'core/images/default_product.png' %}" class="img-fluid" alt="{{ product.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p class="fs-4 text-primary fw-bold">{{ product.price|format_currency }}</p>
+            {% with original_price=product.price|get_discounted_price:15 %}
+                {% if original_price > product.price %}
+                    <p class="text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.9rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="mt-4">
+                <p><strong>Categoría:</strong> {{ product.get_category_display }}</p>
+                {% if product.pages %}
+                    <p><strong>Páginas:</strong> {{ product.pages }}</p>
+                {% endif %}
+                {% if product.measures %}
+                    <p><strong>Medidas:</strong> {{ product.measures }}</p>
+                {% endif %}
+                {% if product.authors %}
+                    <p><strong>Autores:</strong> {{ product.authors }}</p>
+                {% endif %}
+                {% if product.is_available %}
+                    <p><span class="text-success">Disponible</span></p>
+                {% else %}
+                    <p><span class="text-danger">No disponible</span></p>
+                {% endif %}
+            </div>
+
+            {% if product.description %}
+                <div class="mt-4">
+                    <h3>Descripción</h3>
+                    <p>{{ product.description|linebreaks }}</p>
+                </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg">Agregar al Carrito</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Productos relacionados -->
+    {% if related_products %}
+        <div class="mt-5">
+            <h3>Productos Relacionados</h3>
+            <div class="row">
+                {% for related in related_products %}
+                    <div class="col-md-3">
+                        <a href="{% url 'products:product_detail' related.slug %}" class="text-decoration-none">
+                            <div class="card card-glass">
+                                {% if related.image %}
+                                    <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}" style="height: 150px; object-fit: cover;">
+                                {% else %}
+                                    <img src="{% static 'core/images/default_product.png' %}" class="card-img-top" alt="{{ related.name }}" style="height: 150px; object-fit: cover;">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ related.name|truncatechars:30 }}</h6>
+                                    {% if related.description %}
+                                        <p class="card-text description-preview">{{ related.description|truncate_description:2|linebreaksbr }}</p>
+                                        <a href="{% url 'products:product_detail' related.slug %}" class="read-more-link">Leer más</a>
+                                    {% endif %}
+                                    <p class="card-text">{{ related.price|format_currency }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.description-preview {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 2 líneas para productos relacionados ya que tienen menos espacio */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+.read-more-link {
+    font-size: 0.75rem;
+    color: #007bff;
+    text-decoration: none;
+}
+.read-more-link:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

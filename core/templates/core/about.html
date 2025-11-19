@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiénes Somos - Jesús Te Sana{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Sección de Bienvenida -->
+    <section class="text-center mb-5" data-aos="fade-up">
+        <h1 class="display-4">Somos Jesús te Sana</h1>
+        <p class="lead text-biblico"><strong>"Vengan a mí todos los que están cansados y agobiados, que yo los aliviaré" (Mt 11,28).</strong></p>
+        <p>Con estas palabras de Jesús, te invitamos a un camino de sanación interior y un encuentro transformador con el amor de Dios. Somos un grupo de laicos comprometidos con la Iglesia Católica, pertenecientes a la Arquidiócesis de Manizales, dedicados a acompañar a personas, familias y comunidades en la búsqueda de paz, reconciliación y renovación espiritual a través del ejercicio de la sanación interior.</p>
+        <p>Inspirados por la visión de San Pablo, creemos que las heridas emocionales, espirituales y psicológicas pueden ser sanadas por la gracia de Cristo:</p>
+        <p class="text-biblico"><strong>"Que Dios mismo les conserve todo su ser, espíritu, alma y cuerpo sin defecto alguno" (1 Tes 5,23)</strong></p>
+    </section>
+
+    <!-- Sección Misión y Carisma -->
+    <section class="mb-5" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <h2>Nuestra Misión y Carisma</h2>
+                <p>Jesús Te Sana es un movimiento católico que nace del deseo de ser instrumentos del amor sanador de Jesús. Nuestro carisma se centra en la sanación interior, abordando las heridas que afectan a la persona desde el vientre materno hasta la adultez, como traumas, miedos, resentimientos, inseguridades o conflictos que pueden manifestarse incluso en enfermedades físicas.</p>
+                <p>Reconocemos que estas heridas, a menudo arraigadas en experiencias tempranas o influencias negativas, pueden perturbar la convivencia armónica y la paz interior. Por eso, ofrecemos un espacio de oración y acompañamiento para liberar ataduras, sanar memorias y restaurar el corazón.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Lo que Ofrecemos -->
+    <section class="bg-light py-5 mb-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-4">Lo que Ofrecemos</h2>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Grupos de Oración y Retiros</h5>
+                            <p class="card-text">Grupos de oración semanales en Manizales, retiros en distintas parroquias y eventos tanto virtuales como presenciales, para experimentar la liberación espiritual y la sanación.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Formación y Acompañamiento</h5>
+                            <p class="card-text">Ofrecemos formación en sanación interior, consejería y acompañamiento espiritual y psicológico desde una perspectiva católica.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Medios de Comunicación</h5>
+                            <p class="card-text">Llevamos mensajes de esperanza a través de nuestros libros, audios, videos, nuestra Editorial Agnus Dei, y presencia digital en redes sociales.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Pilares Fundamentales -->
+    <section class="mb-5 text-center" data-aos="fade-up">
+        <h2>Nuestros Pilares Fundamentales</h2>
+        <div class="row mt-4">
+            <div class="col"><strong>Sanación</strong></div>
+            <div class="col"><strong>Liberación</strong></div>
+            <div class="col"><strong>Oración</strong></div>
+            <div class="col"><strong>Perdón</strong></div>
+            <div class="col"><strong>Vida Sacramental</strong></div>
+        </div>
+    </section>
+
+    <!-- Sección Nuestro Proceso de Vida -->
+    <section class="mb-5" data-aos="fade-up">
+        <h2>Nuestro Proceso de Vida</h2>
+        <p>Acompañamos a cada persona en un camino espiritual claro y estructurado:</p>
+        <ul>
+            <li><strong>Evangelización:</strong> Invitamos a una conversión personal y a un encuentro vivo con Cristo resucitado.</li>
+            <li><strong>Catequesis:</strong> Fomentamos el crecimiento espiritual a través de la formación y el discipulado.</li>
+            <li><strong>Apostolado:</strong> Animamos a cada miembro a descubrir y vivir sus carismas al servicio de los demás.</li>
+            <li><strong>Vida sacramental:</strong> Promovemos la participación activa en la Confesión y la Eucaristía como fuentes de gracia.</li>
+        </ul>
+    </section>
+
+    <!-- Sección Frutos de Nuestra Labor -->
+    <section class="text-center" data-aos="fade-up">
+        <h2>Los Frutos de Nuestra Labor</h2>
+        <p class="lead">El impacto de Jesús Te Sana se refleja en los innumerables testimonios de personas que han sido tocadas por la gracia de Dios. Hemos visto corazones sanados, familias reconciliadas, y vidas transformadas a nivel personal, espiritual, emocional, psicológico e incluso físico. Cada historia es un testimonio del poder sanador de Jesús.</p>
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-primary btn-lg mt-3">Ver Testimonios</a>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inscripción a {{ evento.titulo }} - Jesús te Sana{% endblock %}
+
+{% block extra_head %}
+<style>
+    .inscripcion-form-container {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
+    .inscripcion-form-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2em;
+        font-weight: bold;
+    }
+    .button-primary {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+    }
+    .button-primary:hover {
+        background-color: #0056b3;
+    }
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 0.9em;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+    .messages {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    .messages li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        color: #fff;
+    }
+    .messages .success {
+        background-color: #28a745;
+    }
+    .messages .error {
+        background-color: #dc3545;
+    }
+    .messages .warning {
+        background-color: #ffc107;
+        color: #333;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px 40px; /* Aumentar el padding horizontal */
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .modal-content ul {
+        padding-left: 20px; /* Añadir indentación a la lista */
+    }
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .modal-content h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .modal-content p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="inscripcion-form-container">
+        <h2>Inscripción a {{ evento.titulo }}</h2>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="mb-3">
+            <button type="button" class="btn btn-secondary button-primary" id="clearFormButtonTop" style="background-color: #6c757d;">Limpiar Campos</button>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="evento_slug" value="{{ evento.slug }}">
+
+            <div class="mb-3">
+                <label for="{{ cuori_form.cedula.id_for_label }}" class="form-label">Cédula:</label>
+                {{ cuori_form.cedula }}
+                {% if cuori_form.cedula.errors %}
+                    <div class="text-danger">{{ cuori_form.cedula.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ cuori_form.nombre_completo.id_for_label }}" class="form-label">Nombre Completo:</label>
+                {{ cuori_form.nombre_completo }}
+                {% if cuori_form.nombre_completo.errors %}
+                    <div class="text-danger">{{ cuori_form.nombre_completo.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ cuori_form.numero_contacto.id_for_label }}" class="form-label">Número de Contacto 1:</label>
+                {{ cuori_form.numero_contacto }}
+                {% if cuori_form.numero_contacto.errors %}
+                    <div class="text-danger">{{ cuori_form.numero_contacto.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ cuori_form.numero_contacto_2.id_for_label }}" class="form-label">Número de Contacto 2 (Opcional):</label>
+                {{ cuori_form.numero_contacto_2 }}
+                {% if cuori_form.numero_contacto_2.errors %}
+                    <div class="text-danger">{{ cuori_form.numero_contacto_2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ cuori_form.email_contacto.id_for_label }}" class="form-label">Correo Electrónico:</label>
+                {{ cuori_form.email_contacto }}
+                {% if cuori_form.email_contacto.errors %}
+                    <div class="text-danger">{{ cuori_form.email_contacto.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="{{ cuori_form.pais.id_for_label }}" class="form-label">País:</label>
+                    {{ cuori_form.pais }}
+                    {% if cuori_form.pais.errors %}
+                        <div class="text-danger">{{ cuori_form.pais.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ cuori_form.departamento.id_for_label }}" class="form-label">Departamento/Estado/Región:</label>
+                    {{ cuori_form.departamento }}
+                    {% if cuori_form.departamento.errors %}
+                        <div class="text-danger">{{ cuori_form.departamento.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ cuori_form.ciudad.id_for_label }}" class="form-label">Ciudad:</label>
+                    {{ cuori_form.ciudad }}
+                    {% if cuori_form.ciudad.errors %}
+                        <div class="text-danger">{{ cuori_form.ciudad.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-check mb-3">
+                {{ inscripcion_form.terms_accepted }}
+                <label class="form-check-label" for="{{ inscripcion_form.terms_accepted.id_for_label }}">
+                    Acepto los términos y condiciones y la <a href="#" id="openHabeasDataModal">política de Habeas Data</a>.
+                </label>
+                {% if inscripcion_form.terms_accepted.errors %}
+                    <div class="text-danger">{{ inscripcion_form.terms_accepted.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary button-primary" id="submitButton">Confirmar Inscripción</button>
+            <button type="button" class="btn btn-secondary button-primary" id="clearFormButton" style="background-color: #6c757d;">Limpiar Campos</button>
+        </form>
+
+        <a href="{% url 'evento_detalle' evento.slug %}" class="back-link">Regresar a los detalles del evento</a>
+    </section>
+
+    <!-- Modal de Habeas Data -->
+    <div id="habeasDataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Política de Tratamiento de Datos Personales (Habeas Data)</h3>
+            <p>En cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, informamos que al aceptar los términos y condiciones, usted autoriza a [Nombre de tu Organización] para recolectar, almacenar, usar, circular, suprimir y, en general, tratar sus datos personales para las siguientes finalidades:</p>
+            <ul>
+                <li>Gestionar su inscripción y participación en el evento.</li>
+                <li>Enviar comunicaciones relacionadas con el evento (confirmaciones, recordatorios, cambios).</li>
+                <li>Informar sobre futuros eventos, actividades y servicios de [Nombre de tu Organización].</li>
+                <li>Realizar análisis estadísticos internos.</li>
+            </ul>
+            <p>Usted tiene derecho a conocer, actualizar, rectificar y suprimir sus datos personales, así como a revocar la autorización otorgada. Para ejercer estos derechos, puede contactarnos a través de [correo electrónico de contacto] o [número de teléfono de contacto].</p>
+            <p>La presente política rige a partir de su publicación y podrá ser modificada por [Nombre de tu Organización] en cualquier momento, informando oportunamente a los titulares de los datos.</p>
+            <p><strong>[Fecha de la política]</strong></p>
+        </div>
+    </div>
+
+    <!-- Nuevo Modal de Confirmación/Éxito -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3 id="confirmationModalTitle"></h3>
+            <p id="confirmationModalMessage"></p>
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="confirmActionButton" class="btn btn-primary button-primary" style="display: none;">Confirmar</button>
+                <button id="cancelActionButton" class="btn btn-secondary" style="display: none;">Cancelar</button>
+                <button id="okButton" class="btn btn-primary button-primary" style="display: none;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var habeasDataModal = document.getElementById("habeasDataModal");
+        var confirmationModal = document.getElementById("confirmationModal");
+
+        // Get the button that opens the modal
+        var openHabeasDataBtn = document.getElementById("openHabeasDataModal");
+
+        // Get the <span> element that closes the modal
+        var closeHabeasDataSpan = habeasDataModal.getElementsByClassName("close-button")[0];
+
+        // When the user clicks the button, open the modal
+        openHabeasDataBtn.onclick = function(event) {
+            event.preventDefault(); // Evita que el enlace navegue a #
+            habeasDataModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        closeHabeasDataSpan.onclick = function() {
+            habeasDataModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == habeasDataModal) {
+                habeasDataModal.style.display = "none";
+            } else if (event.target == confirmationModal) {
+                confirmationModal.style.display = "none";
+            }
+        }
+
+        // Lógica de autocompletado por cédula
+        const cedulaInput = document.getElementById('{{ cuori_form.cedula.id_for_label }}');
+        const nombreCompletoInput = document.getElementById('{{ cuori_form.nombre_completo.id_for_label }}');
+        const numeroContactoInput = document.getElementById('{{ cuori_form.numero_contacto.id_for_label }}');
+        const numeroContacto2Input = document.getElementById('{{ cuori_form.numero_contacto_2.id_for_label }}');
+        const emailContactoInput = document.getElementById('{{ cuori_form.email_contacto.id_for_label }}');
+        const paisInput = document.getElementById('{{ cuori_form.pais.id_for_label }}');
+        const departamentoInput = document.getElementById('{{ cuori_form.departamento.id_for_label }}');
+        const ciudadInput = document.getElementById('{{ cuori_form.ciudad.id_for_label }}');
+        const submitButton = document.getElementById('submitButton');
+        const statusMessageDiv = document.createElement('div');
+        statusMessageDiv.className = 'alert mt-3';
+        statusMessageDiv.style.display = 'none';
+        cedulaInput.parentNode.insertBefore(statusMessageDiv, cedulaInput.nextSibling);
+
+        const eventoSlug = document.getElementById('evento_slug').value;
+        let initialCuoriData = {}; // Para almacenar los datos iniciales del Cuori
+
+        function showConfirmationModal(title, message, showConfirmCancel, showOk, onConfirm = null, onCancel = null) {
+            document.getElementById('confirmationModalTitle').textContent = title;
+            document.getElementById('confirmationModalMessage').textContent = message;
+            
+            const confirmBtn = document.getElementById('confirmActionButton');
+            const cancelBtn = document.getElementById('cancelActionButton');
+            const okBtn = document.getElementById('okButton');
+
+            confirmBtn.style.display = showConfirmCancel ? 'inline-block' : 'none';
+            cancelBtn.style.display = showConfirmCancel ? 'inline-block' : 'none';
+            okBtn.style.display = showOk ? 'inline-block' : 'none';
+
+            confirmBtn.onclick = () => { confirmationModal.style.display = 'none'; if (onConfirm) onConfirm(); };
+            cancelBtn.onclick = () => { confirmationModal.style.display = 'none'; if (onCancel) onCancel(); };
+            okBtn.onclick = () => { confirmationModal.style.display = 'none'; if (onConfirm) onConfirm(); };
+
+            confirmationModal.style.display = 'block';
+        }
+
+        function getFormData(form) {
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            return data;
+        }
+
+        function hasCuoriDataChanged() {
+            const currentData = {
+                nombre_completo: nombreCompletoInput.value,
+                numero_contacto: numeroContactoInput.value,
+                numero_contacto_2: numeroContacto2Input.value,
+                email_contacto: emailContactoInput.value,
+                pais: paisInput.value,
+                departamento: departamentoInput.value,
+                ciudad: ciudadInput.value,
+            };
+            // Comparar solo los campos que pueden ser modificados por el usuario
+            for (const key in currentData) {
+                if (currentData[key] !== (initialCuoriData[key] || '')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Nueva función para manejar la lógica de autocompletado
+        function handleCedulaInput(cedula) {
+            if (cedula.length > 0) {
+                fetch(`/api/get_inscripcion_data_by_cedula/?cedula=${cedula}&evento_slug=${eventoSlug}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Autocompletar siempre los campos si hay datos
+                        if (data.nombre_completo) {
+                            nombreCompletoInput.value = data.nombre_completo;
+                            numeroContactoInput.value = data.numero_contacto;
+                            numeroContacto2Input.value = data.numero_contacto_2;
+                            emailContactoInput.value = data.email_contacto;
+                            paisInput.value = data.pais;
+                            departamentoInput.value = data.departamento;
+                            ciudadInput.value = data.ciudad;
+
+                            // Almacenar los datos iniciales después del autocompletado
+                            initialCuoriData = {
+                                nombre_completo: data.nombre_completo,
+                                numero_contacto: data.numero_contacto,
+                                numero_contacto_2: data.numero_contacto_2,
+                                email_contacto: data.email_contacto,
+                                pais: data.pais,
+                                departamento: data.departamento,
+                                ciudad: data.ciudad,
+                            };
+                        }
+
+                        // Manejar el estado de inscripción
+                        if (data.is_inscribed) {
+                            statusMessageDiv.textContent = '¡Ya estás inscrito(a) en este evento! Puedes actualizar tus datos si lo deseas.';
+                            statusMessageDiv.className = 'alert alert-warning mt-3';
+                            statusMessageDiv.style.display = 'block';
+                            submitButton.textContent = 'Actualizar Datos'; // Cambiar texto del botón
+                            submitButton.disabled = false; // Habilitar el botón
+                        } else if (data.nombre_completo) {
+                            statusMessageDiv.textContent = 'Ya existes en nuestros registros. Tus datos han sido autocompletados.';
+                            statusMessageDiv.className = 'alert alert-info mt-3';
+                            statusMessageDiv.style.display = 'block';
+                            submitButton.disabled = false;
+                        } else {
+                            statusMessageDiv.textContent = '';
+                            statusMessageDiv.style.display = 'none';
+                            submitButton.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        statusMessageDiv.textContent = 'Error al buscar tus datos. Por favor, inténtalo de nuevo.';
+                        statusMessageDiv.className = 'alert alert-danger mt-3';
+                        statusMessageDiv.style.display = 'block';
+                        submitButton.disabled = false;
+                    });
+            } else {
+                // Limpiar mensaje y habilitar botón si la cédula está vacía
+                statusMessageDiv.textContent = '';
+                statusMessageDiv.style.display = 'none';
+                submitButton.disabled = false;
+            }
+        }
+
+        cedulaInput.addEventListener('blur', function() {
+            handleCedulaInput(this.value.trim());
+        });
+
+        // Manejo del envío del formulario
+        const inscripcionForm = document.querySelector('form');
+        inscripcionForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío normal del formulario
+
+            // Si el usuario ya está inscrito y ha modificado sus datos, pedir confirmación
+            if (initialCuoriData.nombre_completo && hasCuoriDataChanged()) {
+                showConfirmationModal(
+                    'Confirmar Actualización',
+                    'Has modificado tus datos de contacto. ¿Deseas actualizar tu información en nuestros registros y continuar con la inscripción?',
+                    true, // Mostrar Confirmar/Cancelar
+                    false, // No mostrar OK
+                    () => sendFormData(), // Si confirma, enviar el formulario
+                    () => { console.log('Actualización cancelada por el usuario.'); } // Opcional: si cancela
+                );
+            } else {
+                sendFormData(); // Si no hay cambios o es un usuario nuevo, enviar directamente
+            }
+        });
+
+        function sendFormData() {
+            const formData = new FormData(inscripcionForm);
+            // Añadir un encabezado para indicar que es una solicitud AJAX
+            formData.append('x-requested-with', 'XMLHttpRequest');
+
+            fetch(inscripcionForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest' // Asegurarse de que este encabezado se envíe
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showConfirmationModal(
+                        '¡Inscripción Exitosa!',
+                        data.message + ' Serás dirigido a la página de eventos.',
+                        false, // No mostrar Confirmar/Cancelar
+                        true, // Mostrar OK
+                        () => { window.location.href = '{% url "eventos" %}'; } // Redirigir al hacer clic en OK
+                    );
+                } else {
+                    // Mostrar errores de validación del formulario
+                    if (data.errors) {
+                        // Primero, limpia todos los errores existentes
+                        document.querySelectorAll('.text-danger').forEach(div => div.textContent = '');
+
+                        const errors = JSON.parse(data.errors);
+                        for (const fieldName in errors) {
+                            const errorList = errors[fieldName];
+                            const fieldElement = document.querySelector(`[name="${fieldName}"]`);
+                            if (fieldElement) {
+                                let errorDiv = fieldElement.nextElementSibling;
+                                // Si no hay un div de error, lo creamos (o buscamos uno cercano)
+                                if (!errorDiv || !errorDiv.classList.contains('text-danger')) {
+                                    // Intentamos encontrarlo de otra manera o crearlo si es necesario
+                                    const parent = fieldElement.closest('.mb-3');
+                                    if (parent) {
+                                        errorDiv = parent.querySelector('.text-danger');
+                                    }
+                                }
+                                
+                                if (errorDiv) {
+                                    errorDiv.textContent = errorList.map(e => e.message).join(' ');
+                                    errorDiv.style.display = 'block';
+                                }
+                            }
+                        }
+                    }
+                    showConfirmationModal(
+                        'Error en la Inscripción',
+                        data.message,
+                        false, // No mostrar Confirmar/Cancelar
+                        true // Mostrar OK
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Error en la solicitud AJAX:', error);
+                showConfirmationModal(
+                    'Error de Conexión',
+                    'No se pudo conectar con el servidor. Por favor, intenta de nuevo.',
+                    false, // No mostrar Confirmar/Cancelar
+                    true // Mostrar OK
+                );
+            });
+        }
+
+        // Lógica para limpiar el formulario
+        const clearFormButton = document.getElementById('clearFormButton');
+        const clearFormButtonTop = document.getElementById('clearFormButtonTop');
+        clearFormButton.addEventListener('click', clearForm);
+        clearFormButtonTop.addEventListener('click', clearForm);
+
+        function clearForm() {
+            // Limpiar todos los campos del formulario cuori_form
+            cedulaInput.value = '';
+            nombreCompletoInput.value = '';
+            numeroContactoInput.value = '';
+            numeroContacto2Input.value = '';
+            emailContactoInput.value = '';
+            paisInput.value = '';
+            departamentoInput.value = '';
+            ciudadInput.value = '';
+
+            // Limpiar el campo terms_accepted
+            document.getElementById('{{ inscripcion_form.terms_accepted.id_for_label }}').checked = false;
+
+            statusMessageDiv.textContent = ''; // Limpia el mensaje de estado
+            statusMessageDiv.style.display = 'none';
+            submitButton.disabled = false; // Habilita el botón de envío
+            initialCuoriData = {}; // Resetea los datos iniciales del Cuori
+
+            // Limpiar errores de validación si los hubiera
+            document.querySelectorAll('.text-danger').forEach(function(element) {
+                element.textContent = '';
+            });
+        }
+
+    </script>
+{% endblock %}

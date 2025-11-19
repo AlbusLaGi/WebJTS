@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jesús te Sana{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sticky-navbar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/custom_theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body.body-feed {
+            background-image: url('{% static "images/ui/fondo.webp" %}') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            background-color: transparent !important; /* Asegurar que no se use el color de fondo predeterminado */
+            opacity: 0.95; /* Para aclarar un poco la imagen */
+            filter: brightness(1.2) contrast(1.1) saturate(0.85); /* Ajuste para que no se vea tan saturado */
+        }
+
+        /* Efecto de vidrio para todas las tarjetas */
+        .card, .card-glass {
+            background: rgba(255, 255, 255, 0.25) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .card-body {
+            background: transparent !important;
+        }
+    </style>
+</head>
+<body class="body-feed">
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top" data-aos="fade-down">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center flex-column flex-md-row text-center text-md-start" href="{% url 'home' %}">
+            <img src="{% static 'images/logos/logoJTSwt.webp' %}" alt="JTS Logo" width="40" height="40" class="d-inline-block align-text-top me-2 logo-img" data-original-logo="{% static 'images/logos/logoJTSwt.webp' %}" data-scrolled-logo="{% static 'images/logos/logoJTS.webp' %}">
+            <div class="d-flex flex-column align-items-center align-items-md-start">
+                <span class="logo-text fw-bold d-md-block d-none">Jesús te Sana - Sanación Interior</span>
+                <div class="d-md-none d-block">
+                    <span class="logo-text fw-bold">Jesús te Sana</span><br>
+                    <span class="logo-text fw-bold">Sanación Interior</span>
+                </div>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">Quiénes Somos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'eventos' %}">Eventos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products:product_list' %}">Tienda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:blog_list' %}">Blog</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+{% block hero %}{% endblock hero %}
+
+<main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer-con-fondo py-4">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <!-- Columna de Contacto -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-uppercase fw-bold mb-3">Contacto</h5>
+                    <p><i class="fas fa-envelope me-2"></i> comunidadjesustesana@hotmail.com</p>
+                    <p><i class="fas fa-tv me-2"></i> Programa en ManizalesTV (Lun-Vie, 9-11 AM)</p>
+                </div>
+
+                <!-- Columna de Redes Sociales (Placeholder) -->
+                <div class="col-md-4 mb-3 mb-md-0 text-center">
+                    <h5 class="text-uppercase fw-bold mb-3">Síguenos</h5>
+                    <!-- Aquí irán los íconos de redes sociales -->
+                    <div class="social-icons">
+                        <!-- Ejemplo: <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p class="mb-0">© {% now "Y" %} Jesús Te Sana. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el menú móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navItems = document.querySelector('.nav-items');
+
+            if (mobileMenu && navItems) {
+                mobileMenu.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                    navItems.classList.toggle('open');
+                });
+            }
+
+            // JavaScript para el navbar pegajoso
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Nuestros Productos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Columna de Categorías -->
+        <div class="col-md-3">
+            <div class="card p-3" data-aos="fade-up">
+                <h3 class="card-title">Categorías</h3>
+                <ul class="nav flex-column">
+                    <li class="nav-item {% if not current_category or current_category == 'all' %}active-category{% endif %}">
+                        <a class="nav-link" href="{% url 'products:categorized_product_list' %}?category=all">Todos</a>
+                    </li>
+                    {% for cat_key, cat_name in categoria_choices.items %}
+                        <li class="nav-item {% if current_category == cat_key %}active-category{% endif %}">
+                            <a class="nav-link" href="{% url 'products:categorized_product_list' %}?category={{ cat_key }}">{{ categoria_plurales|get_item:cat_key|default:cat_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Columna de Productos -->
+        <div class="col-md-9">
+            <h1 data-aos="fade-down">Nuestros Productos</h1>
+
+            <!-- Sección de Libros -->
+            {% with libros=categorias|get_item:'libro' %}
+                {% if libros %}
+                    <h2 class="mt-5" data-aos="fade-right">{{ categoria_plurales|get_item:'libro' }}</h2>
+                    <div class="row">
+                        {% for product in libros %}
+                            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                                <a href="{% url 'products:product_detail' product.slug %}" class="card-link">
+                                    <div class="card h-100 card-glass">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                        {% else %}
+                                            <img src="{% static 'core/images/default_product.png' %}" class="card-img-top" alt="{{ product.name }}">
+                                        {% endif %}
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            {% if product.description %}
+                                                <p class="card-text description-preview">{{ product.description|truncate_description:3|linebreaksbr }}</p>
+                                                <a href="{% url 'products:product_detail' product.slug %}" class="read-more-link">Leer más</a>
+                                            {% endif %}
+                                            {% with original_price=product.price|get_discounted_price:15 %}
+                                                <p class="card-text fs-5 fw-bold">{{ product.price|format_currency }}</p>
+                                                {% if original_price > product.price %}
+                                                    <p class="card-text text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.85rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Sección de Series -->
+            {% with series=categorias|get_item:'serie' %}
+                {% if series %}
+                    <h2 class="mt-5" data-aos="fade-right">{{ categoria_plurales|get_item:'serie' }}</h2>
+                    <div class="row">
+                        {% for product in series %}
+                            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                                <a href="{% url 'products:product_detail' product.slug %}" class="card-link">
+                                    <div class="card h-100 card-glass">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                        {% else %}
+                                            <img src="{% static 'core/images/default_product.png' %}" class="card-img-top" alt="{{ product.name }}">
+                                        {% endif %}
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            {% if product.description %}
+                                                <p class="card-text description-preview">{{ product.description|truncate_description:3|linebreaksbr }}</p>
+                                                <a href="{% url 'products:product_detail' product.slug %}" class="read-more-link">Leer más</a>
+                                            {% endif %}
+                                            {% with original_price=product.price|get_discounted_price:15 %}
+                                                <p class="card-text fs-5 fw-bold">{{ product.price|format_currency }}</p>
+                                                {% if original_price > product.price %}
+                                                    <p class="card-text text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.85rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Sección de Otros Productos -->
+            {% with otros_productos=categorias|get_item:'otro_producto' %}
+                {% if otros_productos %}
+                    <h2 class="mt-5" data-aos="fade-right">{{ categoria_plurales|get_item:'otro_producto' }}</h2>
+                    <div class="row">
+                        {% for product in otros_productos %}
+                            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                                <a href="{% url 'products:product_detail' product.slug %}" class="card-link">
+                                    <div class="card h-100 card-glass">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                        {% else %}
+                                            <img src="{% static 'core/images/default_product.png' %}" class="card-img-top" alt="{{ product.name }}">
+                                        {% endif %}
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            {% if product.description %}
+                                                <p class="card-text description-preview">{{ product.description|truncate_description:3|linebreaksbr }}</p>
+                                                <a href="{% url 'products:product_detail' product.slug %}" class="read-more-link">Leer más</a>
+                                            {% endif %}
+                                            {% if product.measures %}
+                                                <p class="card-text text-muted">Medidas: {{ product.measures }}</p>
+                                            {% endif %}
+                                            {% with original_price=product.price|get_discounted_price:15 %}
+                                                <p class="card-text fs-5 fw-bold">{{ product.price|format_currency }}</p>
+                                                {% if original_price > product.price %}
+                                                    <p class="card-text text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.85rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Sección de Paquetes -->
+            {% with paquetes=categorias|get_item:'paquete' %}
+                {% if paquetes %}
+                    <h2 class="mt-5" data-aos="fade-right">{{ categoria_plurales|get_item:'paquete' }}</h2>
+                    <div class="row">
+                        {% for package in paquetes %}
+                            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                                <a href="{% url 'products:package_detail' package.slug %}" class="card-link">
+                                    <div class="card h-100 card-glass">
+                                        {% if package.image %}
+                                            <img src="{{ package.image.url }}" class="card-img-top" alt="{{ package.name }}">
+                                        {% else %}
+                                            <img src="{% static 'core/images/default_package.png' %}" class="card-img-top" alt="{{ package.name }}">
+                                        {% endif %}
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ package.name }}</h5>
+                                            {% with original_price=package.price|get_discounted_price:15 %}
+                                                <p class="card-text fs-5 fw-bold">{{ package.price|format_currency }}</p>
+                                                {% if original_price > package.price %}
+                                                    <p class="card-text text-info text-decoration-line-through mb-0 mt-1" style="font-size: 0.85rem; opacity: 0.85;">Antes: {{ original_price|format_currency }}</p>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
+<style>
+.active-category a {
+    font-weight: bold;
+    color: var(--primary-blue) !important;
+}
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+}
+.description-preview {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+.read-more-link {
+    font-size: 0.875rem;
+    color: #007bff;
+    text-decoration: none;
+}
+.read-more-link:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,10 @@
+<div class="container mt-5">
+    <h2>También te podría interesar:</h2>
+    <div class="row">
+        {% for product in suggestions %}
+            {% include 'products/includes/product_card.html' with product=product %}
+        {% empty %}
+            <p>No hay sugerencias disponibles en este momento.</p>
+        {% endfor %}
+    </div>
+</div>

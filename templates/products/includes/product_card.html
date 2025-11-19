@@ -1,0 +1,49 @@
+{% load currency_filters %}
+{% load custom_filters %}
+<div class="col-md-4 mb-4">
+    <a href="{% if product.get_absolute_url %}{{ product.get_absolute_url }}{% endif %}" class="card-link">
+        <div class="card h-100 card-glass">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+                <img src="/static/images/products/default_product.png" class="card-img-top" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product.name }}</h5>
+                {% if product.description %}
+                    <p class="card-text description-preview">{{ product.description|truncate_description:3|linebreaksbr }}</p>
+                    <a href="{% if product.get_absolute_url %}{{ product.get_absolute_url }}{% endif %}" class="read-more-link">Leer más</a>
+                {% endif %}
+                <p class="card-text mt-auto">
+                    {% if product.show_strikethrough_price and product.percentage_increase > 0 %}
+                        <span style="text-decoration: line-through; color: #888;">{{ product.calculated_strikethrough_price|format_currency }}</span>
+                        {% if product.calculated_discount_percentage > 0 %}
+                            <span style="color: green; font-weight: bold;"> ¡{{ product.calculated_discount_percentage }}% OFF!</span>
+                        {% endif %}
+                        <br>
+                    {% endif %}
+                    <strong>{{ product.price|format_currency }}</strong>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+<style>
+.description-preview {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+.read-more-link {
+    font-size: 0.875rem;
+    color: #007bff;
+    text-decoration: none;
+}
+.read-more-link:hover {
+    text-decoration: underline;
+}
+</style>

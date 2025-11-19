@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load currency_filters %}
+{% load text_filters %}
+
+{% block title %}{{ evento.titulo }} - Jesús te Sana{% endblock %}
+
+{% block content %}
+    <section class="event-detail">
+        <h2 data-aos="fade-up">{{ evento.titulo }}</h2>
+
+        {% if messages %}
+            <ul class="messages" style="list-style-type: none; padding: 0;">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="message {{ message.tags }}"{% endif %} style="padding: 10px; margin-bottom: 10px; border-radius: 4px; color: #fff; background-color: {% if message.tags == 'success' %}#28a745{% elif message.tags == 'error' %}#dc3545{% else %}#ffc107{% endif %};">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if evento.imagen %}
+            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" style="max-width: 400px; height: auto; display: block; margin: 0 auto 20px;" data-aos="fade-up" data-aos-delay="100">
+        {% endif %}
+        <p data-aos="fade-up" data-aos-delay="200"><strong>Fecha y Hora:</strong> {{ evento.fecha|date:"d M Y" }}{% if evento.hora_fin %}, de {{ evento.fecha|date:"H:i" }} a {{ evento.hora_fin|date:"H:i" }}{% else %}, {{ evento.fecha|date:"H:i" }}{% endif %}</p>
+        <p data-aos="fade-up" data-aos-delay="300"><strong>Ubicación:</strong> {{ evento.lugar }}{% if evento.direccion %}, {{ evento.direccion }}{% endif %}{% if evento.ciudad %}, {{ evento.ciudad }}{% endif %}{% if evento.departamento %}, {{ evento.departamento }}{% endif %}
+            {% if evento.coordenadas_mapa %}
+                <a href="https://www.google.com/maps/search/?api=1&query={{ evento.coordenadas_mapa }}" target="_blank" style="margin-left: 10px; font-size: 0.9em; color: #007bff; text-decoration: underline;">Ver ubicación en el mapa</a>
+            {% endif %}
+        </p>
+        <p data-aos="fade-up" data-aos-delay="400"><strong>Dirigido a:</strong> {{ evento.get_dirigido_a_display }}</p>
+        {% if evento.requiere_ofrenda %}
+            <p data-aos="fade-up" data-aos-delay="500"><strong>Ofrenda:</strong> {{ evento.valor_ofrenda|format_currency }}</p>
+        {% else %}
+            <p data-aos="fade-up" data-aos-delay="500"><strong>Entrada:</strong> Libre</p>
+        {% endif %}
+        <p data-aos="fade-up" data-aos-delay="600">{{ evento.descripcion|bold_biblical_quotes|linebreaksbr }}</p>
+
+        {% if evento.tipo_asistencia == 'ABIERTO' %}
+            <p><strong>Cupos:</strong> Ilimitado</p>
+        {% else %}
+            <p><strong>Cupos Disponibles:</strong> {{ evento.cupos_disponibles }} / {{ evento.cupos }}</p>
+        {% endif %}
+
+        
+
+        <div class="actions" style="margin-top: 20px; text-align: center;" data-aos="fade-up" data-aos-delay="800">
+            {% if evento.requiere_inscripcion %}
+                {% if esta_inscrito %}
+                    <p style="color: #28a745; font-weight: bold;">Ya estás inscrito en este evento.</p>
+                {% else %}
+                    {% if evento.tipo_asistencia == 'LIMITADO' and evento.cupos_disponibles <= 0 %}
+                        <p style="color: #dc3545;">Inscripciones cerradas (cupos agotados).</p>
+                    {% else %}
+                        <a href="{% url 'inscribir_evento' evento.slug %}" class="btn btn-primary">Inscribirme ahora</a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <p style="color: #007bff; font-weight: bold;">No se requiere inscripción para este evento. ¡Entrada libre!</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'eventos' %}" class="back-link" data-aos="fade-up" data-aos-delay="900">Volver a la lista de eventos</a>
+    </section>
+{% endblock %}

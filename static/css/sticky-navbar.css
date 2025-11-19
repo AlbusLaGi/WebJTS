@@ -1,0 +1,20 @@
+/* core/static/core/css/sticky-navbar.css */
+
+body {
+    padding-top: 70px; /* Ajustado para la altura del navbar */
+}
+
+.navbar {
+    transition: background-color 0.4s ease-in-out, padding 0.4s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #003399; /* Color de fondo inicial */
+}
+
+.navbar.scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}

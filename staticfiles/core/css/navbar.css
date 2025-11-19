@@ -1,0 +1,113 @@
+/* Estilos para la barra de navegación principal */
+.navbar {
+    height: 70px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+/* Estilos para la imagen del logo */
+.logo-img {
+    width: 100px;
+    height: auto;
+}
+
+/* Estilos para el enlace del logo */
+.nav-logo a {
+    color: #132b55;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para el texto del logo */
+.logo-text {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Estilos para el contenedor de los ítems de navegación */
+.nav-items {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para cada enlace de navegación */
+.nav-link {
+    color: #e1e1dd;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+/* Estilos para el menú de hamburguesa */
+.nav-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Media Query para el modo móvil */
+@media (max-width: 768px) {
+    .nav-items {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        background-color: #0056b3;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        display: none;
+    }
+
+    .nav-items.open {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-toggle.open .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .nav-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.open .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}

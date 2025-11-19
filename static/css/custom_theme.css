@@ -1,0 +1,137 @@
+/*
+Paleta de Colores Inspirada en "Jesús te Sana"
+Azul Principal (para fondos, navbars): #345a7d - Un azul sereno y confiable.
+Azul de Acento (para botones, enlaces): #5d8aa8 - Un azul más brillante para llamar a la acción.
+Color de Fondo Claro: #f4f6f8 - Un gris muy suave, casi blanco, para que el contenido respire.
+Color de Texto Principal: #333333 - Un gris oscuro para legibilidad.
+Color de Texto Secundario: #6c757d - Un gris más suave para detalles.
+*/
+
+:root {
+    --primary-blue: #003399;
+    --accent-blue: #003399; /* Mantenemos la consistencia con el azul principal */
+    --light-background: #f4f6f8;
+    --dark-text: #333333;
+    --secondary-text: #6c757d;
+}
+
+body {
+    font-family: 'Lora', serif; /* Fuente elegante para el cuerpo */
+    background-color: var(--light-background);
+    color: var(--dark-text);
+}
+
+h1, h2, h3, h4, h5, h6, .card-title, .nav-link, .btn {
+    font-family: 'Montserrat', sans-serif; /* Fuente moderna para títulos y controles */
+}
+
+/* --- Estilos para Títulos y Textos Bíblicos --- */
+h2, h3, h4, h5, h6 {
+    color: var(--primary-blue);
+    font-weight: 700; /* Equivalente a bold */
+}
+
+.text-biblico {
+    color: var(--primary-blue);
+    font-weight: 700; /* Equivalente a bold */
+}
+
+/* --- Sobrescribir Colores de Bootstrap --- */
+.btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.btn-primary:hover {
+    background-color: #002266; /* Un azul más oscuro para el hover */
+    border-color: #002266;
+}
+
+a {
+    color: var(--accent-blue);
+}
+
+a:hover {
+    color: #002266;
+}
+
+/* --- Estilos del Navbar --- */
+.navbar {
+    transition: background-color 0.4s ease, padding 0.4s ease;
+    background-color: rgba(0, 51, 153, 0.9) !important; /* Azul semi-transparente */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.navbar.scrolled {
+    background-color: rgba(0, 51, 153, 0.9) !important; /* Mismo color al hacer scroll */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo-text {
+    font-family: 'Tahoma', sans-serif;
+    font-weight: bold;
+}
+
+/* --- Colores de Texto de Enlaces y Efecto de Selección --- */
+.navbar .navbar-nav .nav-link,
+.navbar .logo-text {
+    color: white;
+    transition: color 0.2s ease-in-out, background-color 0.3s ease;
+    border-radius: 20px; /* Bordes redondeados para el efecto píldora */
+    padding: 8px 15px; /* Ajuste de padding para el efecto */
+    margin: 0 2px;
+}
+
+/* Efecto de "píldora" para el enlace activo y al pasar el ratón */
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2); /* Un fondo sutil para destacar */
+}
+
+/* --- Estilos para un Diseño Limpio y Profesional --- */
+.card {
+    border: none !important;
+    border-radius: 15px !important; /* Bordes más redondeados para un look suave */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    background: rgba(255, 255, 255, 0.25) !important; /* Fondo blanco translúcido */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Borde blanco translúcido */
+}
+
+.card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-title {
+    font-family: 'Montserrat', sans-serif !important; /* Una fuente sans-serif moderna para títulos */
+    font-weight: 600 !important;
+    color: var(--primary-blue) !important;
+}
+
+/* --- Efecto de vidrio para tarjetas específicas --- */
+.card-glass {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Estilos más específicos para elementos anidados en tarjetas */
+.card-body {
+    background: transparent !important;
+    border-radius: 15px !important;
+}
+
+.footer-con-fondo {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
